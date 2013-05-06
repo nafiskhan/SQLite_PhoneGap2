@@ -1,0 +1,55 @@
+<html>
+ <script type="text/javascript" charset="utf-8" src="cordova-2.6.0.js"></script>
+     <script type="text/javascript" charset="utf-8" src="jquery.min.js"></script> 
+<script type="text/javascript" charset="utf-8">
+
+		var db;
+		var shortName = 'Login';
+		var version = '1.0';
+		var displayName = 'Login_Master';
+		var maxSize = 1024; 
+
+function login()
+{
+	alert("Loggin In");
+	
+	
+	db = window.openDatabase(shortName, version, displayName,maxSize);
+	alert("Database Created");
+	 db.transaction(populateDB, errorCB, successCB);
+	 
+	
+}
+
+function populateDB(tx)
+{
+		 tx.executeSql('DROP TABLE IF EXISTS LOGIN');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS LOGIN (USERNAME, PASSWORD)');
+         alert("Table Created");
+         tx.executeSql('INSERT INTO LOGIN (USERNAME, PASSWORD) VALUES ("admin", "admin")');
+         alert("Values inserted into Table Successfully");
+         
+}
+
+
+
+   function errorCB(tx, err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    
+    
+    function successCB() {
+        alert("success! Accessing Database");
+    }
+</script>
+
+<body>
+	<form action="admin.html">
+    User name : <input type ="text" id="uname"/><br/>
+    Password  : &nbsp;<input type="password" id ="pwd"/><br/>
+    <input type="button" value ="Login" onClick="login()">
+    </form>
+</body>
+</html>
